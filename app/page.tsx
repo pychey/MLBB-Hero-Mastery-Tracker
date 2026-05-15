@@ -1,8 +1,10 @@
 import { redirect } from "next/navigation"
-import { auth } from "@/auth"
+import { auth, signOut } from "@/auth"
 import { getHeroes } from "@/lib/actions/heroes"
 import { HeroListClient } from "@/components/hero-list-client"
 import { ThemeToggleButton } from "@/components/theme-toggle-button"
+import { Button } from "@/components/ui/button"
+import { LogOut } from "lucide-react"
 
 export default async function Home() {
   const session = await auth()
@@ -13,6 +15,11 @@ export default async function Home() {
 
   const heroes = await getHeroes()
 
+  async function handleSignOut() {
+    "use server"
+    await signOut({ redirectTo: "/login" })
+  }
+
   return (
     <main className="min-h-screen max-w-lg mx-auto px-4 py-6">
       <div className="flex items-center justify-between mb-6">
@@ -22,7 +29,14 @@ export default async function Home() {
             {session.user?.name}
           </p>
         </div>
-        <ThemeToggleButton />
+        <div className="flex items-center gap-2">
+          <ThemeToggleButton />
+          <form action={handleSignOut}>
+            <Button variant="outline" size="icon">
+              <LogOut className="h-4 w-4" />
+            </Button>
+          </form>
+        </div>
       </div>
       <HeroListClient heroes={heroes} />
     </main>

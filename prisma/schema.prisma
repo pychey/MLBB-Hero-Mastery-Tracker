@@ -64,7 +64,8 @@ model HeroProgress {
   heroId           Int
   progress         String   @default("Pending")
   roles            String[]
-  items            String[]
+  coreItems        String[]
+  optionalItems    String[]
   emblemRole       String?
   emblemTalent1    String?
   emblemTalent2    String?

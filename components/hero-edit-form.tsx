@@ -18,6 +18,7 @@ import {
   BattleSpell,
   ComplexityLevel,
   HeroProgressRecord,
+  ITEM_CATEGORIES,
 } from "@/lib/types"
 import { saveHeroProgress } from "@/lib/actions/heroes"
 
@@ -124,7 +125,8 @@ export function HeroEditForm({ heroId, heroName, initial }: Props) {
     initial?.complexityLevel ?? null
   )
   const [spell, setSpell] = useState<BattleSpell[]>(initial?.spell ?? [])
-  const [items, setItems] = useState<MLBBItem[]>(initial?.items ?? [])
+  const [coreItems, setCoreItems] = useState<MLBBItem[]>(initial?.coreItems ?? [])
+  const [optionalItems, setOptionalItems] = useState<MLBBItem[]>(initial?.optionalItems ?? [])
   const [emblemRole, setEmblemRole] = useState<EmblemsRole | null>(
     initial?.emblemRole ?? null
   )
@@ -152,7 +154,8 @@ export function HeroEditForm({ heroId, heroName, initial }: Props) {
     await saveHeroProgress(heroId, {
       progress,
       roles,
-      items,
+      coreItems,
+      optionalItems,
       emblemRole,
       emblemTalent1,
       emblemTalent2,
@@ -240,12 +243,44 @@ export function HeroEditForm({ heroId, heroName, initial }: Props) {
 
       <div>
         <SectionTitle title="Items" />
-        <CheckboxGroup
-          label="Items"
-          options={Object.values(MLBBItem)}
-          selected={items}
-          onChange={setItems}
-        />
+        <div className="flex flex-col gap-6">
+          {["Core Items", "Optional Items"].map((slotLabel, slotIndex) => {
+            const selected = slotIndex === 0 ? coreItems : optionalItems
+            const setSelected = slotIndex === 0 ? setCoreItems : setOptionalItems
+            return (
+              <div key={slotLabel} className="flex flex-col gap-4">
+                <p className="text-sm font-semibold">{slotLabel}</p>
+                {ITEM_CATEGORIES.map((category) => (
+                  <div key={category.label} className="flex flex-col gap-1.5">
+                    <Label className="text-muted-foreground text-xs">{category.label}</Label>
+                    <div className="flex flex-wrap gap-2">
+                      {category.items.map((item) => (
+                        <button
+                          key={item}
+                          type="button"
+                          onClick={() =>
+                            setSelected((prev) =>
+                              prev.includes(item)
+                                ? prev.filter((i) => i !== item)
+                                : [...prev, item]
+                            )
+                          }
+                          className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
+                            selected.includes(item)
+                              ? "bg-primary text-primary-foreground border-primary"
+                              : "bg-card text-muted-foreground border-border hover:border-primary"
+                          }`}
+                        >
+                          {item}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )
+          })}
+        </div>
       </div>
 
       <div>

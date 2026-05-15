@@ -86,8 +86,12 @@ export default async function HeroDetailPage({
           </span>
         </div>
         <DetailRow
-          label="Items"
-          value={p?.items && p.items.length > 0 ? p.items.join(", ") : null}
+          label="Core Items"
+          value={p?.coreItems && p.coreItems.length > 0 ? p.coreItems.join(", ") : null}
+        />
+        <DetailRow
+          label="Optional Items"
+          value={p?.optionalItems && p.optionalItems.length > 0 ? p.optionalItems.join(", ") : null}
         />
       </div>
 
