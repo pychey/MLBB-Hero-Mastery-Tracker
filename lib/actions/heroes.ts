@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma"
 import { auth } from "@/auth"
 import { HeroProgress, HeroRole, MLBBItem, EmblemsRole, EmblemTalent1, EmblemTalent2, EmblemCoreTalent, BattleSpell, HeroWithProgress, ComplexityLevel, HeroProgressRecord } from "@/lib/types"
+import { revalidatePath } from "next/cache"
 
 export async function getHeroes(): Promise<HeroWithProgress[]> {
   const session = await auth()
@@ -152,6 +153,9 @@ export async function saveHeroProgress(
       whoCounter: data.whoCounter,
     },
   })
+
+  revalidatePath(`/hero/${heroId}`)
+  revalidatePath("/")
 
   return { success: true }
 }

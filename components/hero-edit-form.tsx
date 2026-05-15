@@ -172,7 +172,6 @@ export function HeroEditForm({ heroId, heroName, initial }: Props) {
     })
     setSaving(false)
     router.push(`/hero/${heroId}`)
-    router.refresh()
   }
 
   return (
