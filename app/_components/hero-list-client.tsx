@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useMemo } from "react"
-import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import {
@@ -16,38 +16,37 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Search, SlidersHorizontal } from "lucide-react"
 import { ProgressBadge } from "@/components/progress-badge"
-import { HeroProgress, HeroRole, HeroWithProgress } from "@/lib/types"
+import { HeroProgress, HeroRole, HeroStrength, HeroInterest, HeroWithProgress } from "@/lib/types"
 
 type Props = {
   heroes: HeroWithProgress[]
 }
 
 export function HeroListClient({ heroes }: Props) {
-  const router = useRouter()
   const [search, setSearch] = useState("")
   const [selectedRoles, setSelectedRoles] = useState<HeroRole[]>([])
   const [selectedProgress, setSelectedProgress] = useState<HeroProgress[]>([])
+  const [selectedStrength, setSelectedStrength] = useState<HeroStrength[]>([])
+  const [selectedInterest, setSelectedInterest] = useState<HeroInterest[]>([])
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc")
 
-  const toggleRole = (role: HeroRole) => {
-    setSelectedRoles((prev) =>
-      prev.includes(role) ? prev.filter((r) => r !== role) : [...prev, role]
-    )
-  }
+  const toggleRole = (role: HeroRole) =>
+    setSelectedRoles((prev) => prev.includes(role) ? prev.filter((r) => r !== role) : [...prev, role])
 
-  const toggleProgress = (progress: HeroProgress) => {
-    setSelectedProgress((prev) =>
-      prev.includes(progress) ? prev.filter((p) => p !== progress) : [...prev, progress]
-    )
-  }
+  const toggleProgress = (progress: HeroProgress) =>
+    setSelectedProgress((prev) => prev.includes(progress) ? prev.filter((p) => p !== progress) : [...prev, progress])
+
+  const toggleStrength = (strength: HeroStrength) =>
+    setSelectedStrength((prev) => prev.includes(strength) ? prev.filter((s) => s !== strength) : [...prev, strength])
+
+  const toggleInterest = (interest: HeroInterest) =>
+    setSelectedInterest((prev) => prev.includes(interest) ? prev.filter((i) => i !== interest) : [...prev, interest])
 
   const filtered = useMemo(() => {
     let result = [...heroes]
 
     if (search.trim()) {
-      result = result.filter((h) =>
-        h.name.toLowerCase().includes(search.toLowerCase())
-      )
+      result = result.filter((h) => h.name.toLowerCase().includes(search.toLowerCase()))
     }
 
     if (selectedRoles.length > 0) {
@@ -63,15 +62,31 @@ export function HeroListClient({ heroes }: Props) {
       })
     }
 
+    if (selectedStrength.length > 0) {
+      result = result.filter((h) =>
+        selectedStrength.includes(h.heroProgress?.strengthLevel as HeroStrength)
+      )
+    }
+
+    if (selectedInterest.length > 0) {
+      result = result.filter((h) =>
+        selectedInterest.includes(h.heroProgress?.interest as HeroInterest)
+      )
+    }
+
     if (sortOrder === "desc") {
       result = result.reverse()
     }
 
     return result
-  }, [heroes, search, selectedRoles, selectedProgress, sortOrder])
+  }, [heroes, search, selectedRoles, selectedProgress, selectedStrength, selectedInterest, sortOrder])
 
   const hasActiveFilters =
-    selectedRoles.length > 0 || selectedProgress.length > 0 || sortOrder === "desc"
+    selectedRoles.length > 0 ||
+    selectedProgress.length > 0 ||
+    selectedStrength.length > 0 ||
+    selectedInterest.length > 0 ||
+    sortOrder === "desc"
 
   return (
     <div className="flex flex-col gap-3">
@@ -108,6 +123,30 @@ export function HeroListClient({ heroes }: Props) {
               </DropdownMenuCheckboxItem>
             ))}
             <DropdownMenuSeparator />
+            <DropdownMenuLabel>Filter by Interest</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {Object.values(HeroInterest).map((i) => (
+              <DropdownMenuCheckboxItem
+                key={i}
+                checked={selectedInterest.includes(i)}
+                onCheckedChange={() => toggleInterest(i)}
+              >
+                {i}
+              </DropdownMenuCheckboxItem>
+            ))}
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel>Filter by Strength</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {Object.values(HeroStrength).map((s) => (
+              <DropdownMenuCheckboxItem
+                key={s}
+                checked={selectedStrength.includes(s)}
+                onCheckedChange={() => toggleStrength(s)}
+              >
+                {s}
+              </DropdownMenuCheckboxItem>
+            ))}
+            <DropdownMenuSeparator />
             <DropdownMenuLabel>Filter by Role</DropdownMenuLabel>
             <DropdownMenuSeparator />
             {Object.values(HeroRole).map((r) => (
@@ -138,10 +177,10 @@ export function HeroListClient({ heroes }: Props) {
           <p className="text-center text-muted-foreground py-8 text-sm">No heroes found</p>
         ) : (
           filtered.map((hero) => (
-            <button
+            <Link
               key={hero.id}
-              onClick={() => router.push(`/hero/${hero.id}`)}
-              className="flex items-center justify-between px-4 py-3 rounded-xl border bg-card hover:bg-accent transition-colors text-left"
+              href={`/hero/${hero.id}`}
+              className="flex items-center justify-between px-4 py-3 rounded-xl border bg-card hover:bg-accent transition-colors"
             >
               <span className="font-medium text-sm">
                 {hero.id}. {hero.name}
@@ -149,7 +188,7 @@ export function HeroListClient({ heroes }: Props) {
               <ProgressBadge
                 progress={(hero.heroProgress?.progress as HeroProgress) ?? null}
               />
-            </button>
+            </Link>
           ))
         )}
       </div>

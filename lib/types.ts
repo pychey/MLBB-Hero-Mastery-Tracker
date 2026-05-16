@@ -5,6 +5,19 @@ export enum HeroProgress {
   Mastered = "Mastered",
 }
 
+export enum HeroStrength {
+  Weak = "Weak",
+  Average = "Average",
+  Strong = "Strong",
+  Broken = "Broken",
+}
+
+export enum HeroInterest {
+  NotInterested = "Not Interested",
+  Neutral = "Neutral",
+  Interested = "Interested",
+}
+
 export enum HeroRole {
   Gold = "Gold",
   Exp = "Exp",
@@ -257,15 +270,18 @@ export type HeroProgressRecord = {
   emblemTalent1: EmblemTalent1 | null
   emblemTalent2: EmblemTalent2 | null
   emblemCoreTalent: EmblemCoreTalent | null
-  skillCombo: string | null
-  firstSkillUpgrade: string | null
-  skillToMax: string | null
-  specialPassive: string | null
+  skillCombo: string[]
+  firstSkillUpgrade: string[]
+  skillToMax: string[]
+  specialPassive: string[]
   complexityLevel: ComplexityLevel | null
+  strengthLevel: HeroStrength | null
+  interest: HeroInterest | null
   spell: BattleSpell[]
   powerSpike: string | null
-  counterWho: string | null
-  whoCounter: string | null
+  heroTips: string[]
+  counterWho: string[]
+  whoCounter: string[]
 }
 
 export type HeroWithProgress = {

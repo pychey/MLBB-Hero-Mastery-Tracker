@@ -1,13 +1,13 @@
 import { notFound, redirect } from "next/navigation"
 import { auth } from "@/auth"
 import { getHeroById } from "@/lib/actions/heroes"
-import { DetailRow } from "@/components/detail-row"
+import { DetailRow } from "./_components/detail-row"
 import { ProgressBadge } from "@/components/progress-badge"
 import { ThemeToggleButton } from "@/components/theme-toggle-button"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft, Pencil } from "lucide-react"
 import Link from "next/link"
-import { HeroProgress } from "@/lib/types"
+import { HeroProgress, HeroStrength, HeroInterest } from "@/lib/types"
 
 export default async function HeroDetailPage({
   params,
@@ -56,57 +56,45 @@ export default async function HeroDetailPage({
           <span className="text-xs text-muted-foreground">Progress</span>
           <ProgressBadge progress={(p?.progress as HeroProgress) ?? null} />
         </div>
-        <DetailRow
-          label="Role"
-          value={p?.roles && p.roles.length > 0 ? p.roles.join(", ") : null}
-        />
-        <DetailRow
-          label="Complexity Level"
-          value={p?.complexityLevel ?? null}
-        />
-        <DetailRow
-          label="Spell"
-          value={p?.spell && p.spell.length > 0 ? p.spell.join(", ") : null}
-        />
+        <DetailRow label="Interest" value={p?.interest ?? null} />
+        <DetailRow label="Strength Level" value={p?.strengthLevel ?? null} />
+        <DetailRow label="Role" value={p?.roles && p.roles.length > 0 ? p.roles.join(", ") : null} />
+        <DetailRow label="Complexity Level" value={p?.complexityLevel ?? null} />
+        <DetailRow label="Spell" value={p?.spell && p.spell.length > 0 ? p.spell.join(", ") : null} />
       </div>
 
       <div className="rounded-xl border bg-card px-4 mb-4">
-        <div className="flex flex-col gap-0.5 py-3 border-b">
-          <span className="text-xs text-muted-foreground">Emblem</span>
-          <span className="text-sm font-medium">
-            {p?.emblemRole ? (
-              <span>
-                {[p.emblemRole, p.emblemTalent1, p.emblemTalent2, p.emblemCoreTalent]
-                  .filter(Boolean)
-                  .join(" · ")}
-              </span>
-            ) : (
-              <span className="text-muted-foreground italic">Not set</span>
-            )}
-          </span>
-        </div>
-        <DetailRow
-          label="Core Items"
-          value={p?.coreItems && p.coreItems.length > 0 ? p.coreItems.join(", ") : null}
-        />
-        <DetailRow
-          label="Optional Items"
-          value={p?.optionalItems && p.optionalItems.length > 0 ? p.optionalItems.join(", ") : null}
-        />
+        <ListDetailRow label="Skill Combo" values={p?.skillCombo ?? []} />
+        <ListDetailRow label="First Skill to Upgrade" values={p?.firstSkillUpgrade ?? []} />
+        <ListDetailRow label="Skill to Max" values={p?.skillToMax ?? []} />
+        <ListDetailRow label="Special Passive" values={p?.specialPassive ?? []} />
       </div>
 
       <div className="rounded-xl border bg-card px-4 mb-4">
-        <DetailRow label="Skill Combo" value={p?.skillCombo ?? null} />
-        <DetailRow label="First Skill to Upgrade" value={p?.firstSkillUpgrade ?? null} />
-        <DetailRow label="Skill to Max" value={p?.skillToMax ?? null} />
-        <DetailRow label="Special Passive" value={p?.specialPassive ?? null} />
+        <ListDetailRow label="Hero Tips" values={p?.heroTips ?? []} />
       </div>
 
       <div className="rounded-xl border bg-card px-4">
-        <DetailRow label="Power Spike" value={p?.powerSpike ?? null} />
-        <DetailRow label="Counter Who" value={p?.counterWho ?? null} />
-        <DetailRow label="Who Counter" value={p?.whoCounter ?? null} />
+        <ListDetailRow label="Counter Who" values={p?.counterWho ?? []} />
+        <ListDetailRow label="Who Counter" values={p?.whoCounter ?? []} />
       </div>
     </main>
+  )
+}
+
+function ListDetailRow({ label, values }: { label: string; values: string[] }) {
+  return (
+    <div className="flex flex-col gap-0.5 py-3 border-b last:border-b-0">
+      <span className="text-xs text-muted-foreground">{label}</span>
+      {values && values.length > 0 ? (
+        <ul className="flex flex-col gap-0.5 mt-0.5">
+          {values.map((v, i) => (
+            <li key={i} className="text-sm font-medium">• {v}</li>
+          ))}
+        </ul>
+      ) : (
+        <span className="text-sm text-muted-foreground italic">Not set</span>
+      )}
+    </div>
   )
 }

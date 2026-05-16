@@ -1,7 +1,7 @@
 import { notFound, redirect } from "next/navigation"
 import { auth } from "@/auth"
 import { getHeroById } from "@/lib/actions/heroes"
-import { HeroEditForm } from "@/components/hero-edit-form"
+import { HeroEditForm } from "@/app/hero/[id]/edit/_components/hero-edit-form"
 import { ThemeToggleButton } from "@/components/theme-toggle-button"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"

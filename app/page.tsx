@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation"
 import { auth, signOut } from "@/auth"
 import { getHeroes } from "@/lib/actions/heroes"
-import { HeroListClient } from "@/components/hero-list-client"
+import { HeroListClient } from "@/app/_components/hero-list-client"
 import { ThemeToggleButton } from "@/components/theme-toggle-button"
 import { Button } from "@/components/ui/button"
 import { LogOut } from "lucide-react"
