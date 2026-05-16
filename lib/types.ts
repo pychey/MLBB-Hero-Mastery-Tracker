@@ -94,8 +94,6 @@ export enum BattleSpell {
   Sprint = "Sprint",
   Revitalize = "Revitalize",
   Petrify = "Petrify",
-  Weaken = "Weaken",
-  Stun = "Stun",
 }
 
 export enum MLBBItem {
@@ -273,7 +271,11 @@ export type HeroProgressRecord = {
   skillCombo: string[]
   firstSkillUpgrade: string[]
   skillToMax: string[]
-  specialPassive: string[]
+  passiveSkill: string[]
+  skill1: string[]
+  skill2: string[]
+  skill3: string[]
+  skill4: string[]
   complexityLevel: ComplexityLevel | null
   strengthLevel: HeroStrength | null
   interest: HeroInterest | null

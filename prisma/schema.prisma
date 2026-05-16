@@ -73,7 +73,11 @@ model HeroProgress {
   skillCombo        String[]
   firstSkillUpgrade String[]
   skillToMax        String[]
-  specialPassive    String[]
+  passiveSkill      String[]
+  skill1            String[]
+  skill2            String[]
+  skill3            String[]
+  skill4            String[]
   complexityLevel   String?
   strengthLevel     String?
   interest          String?

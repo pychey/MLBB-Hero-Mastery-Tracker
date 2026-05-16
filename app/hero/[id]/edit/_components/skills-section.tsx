@@ -5,22 +5,18 @@ type Props = {
   skillCombo: string[]
   firstSkillUpgrade: string[]
   skillToMax: string[]
-  specialPassive: string[]
   onSkillComboChange: (val: string[]) => void
   onFirstSkillUpgradeChange: (val: string[]) => void
   onSkillToMaxChange: (val: string[]) => void
-  onSpecialPassiveChange: (val: string[]) => void
 }
 
 export function SkillsSection({
   skillCombo,
   firstSkillUpgrade,
   skillToMax,
-  specialPassive,
   onSkillComboChange,
   onFirstSkillUpgradeChange,
   onSkillToMaxChange,
-  onSpecialPassiveChange,
 }: Props) {
   return (
     <div>
@@ -43,12 +39,6 @@ export function SkillsSection({
           placeholder="e.g. Skill 1"
           values={skillToMax}
           onChange={onSkillToMaxChange}
-        />
-        <ListableInput
-          label="Special Passive"
-          placeholder="Describe the special passive..."
-          values={specialPassive}
-          onChange={onSpecialPassiveChange}
         />
       </div>
     </div>

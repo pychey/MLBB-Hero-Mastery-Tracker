@@ -7,7 +7,7 @@ import { ThemeToggleButton } from "@/components/theme-toggle-button"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft, Pencil } from "lucide-react"
 import Link from "next/link"
-import { HeroProgress, HeroStrength, HeroInterest } from "@/lib/types"
+import { HeroProgress } from "@/lib/types"
 
 export default async function HeroDetailPage({
   params,
@@ -67,7 +67,14 @@ export default async function HeroDetailPage({
         <ListDetailRow label="Skill Combo" values={p?.skillCombo ?? []} />
         <ListDetailRow label="First Skill to Upgrade" values={p?.firstSkillUpgrade ?? []} />
         <ListDetailRow label="Skill to Max" values={p?.skillToMax ?? []} />
-        <ListDetailRow label="Special Passive" values={p?.specialPassive ?? []} />
+      </div>
+
+      <div className="rounded-xl border bg-card px-4 mb-4">
+        <ListDetailRow label="Passive" values={p?.passiveSkill ?? []} />
+        <ListDetailRow label="Skill 1" values={p?.skill1 ?? []} />
+        <ListDetailRow label="Skill 2" values={p?.skill2 ?? []} />
+        <ListDetailRow label="Skill 3" values={p?.skill3 ?? []} />
+        <ListDetailRow label="Skill 4" values={p?.skill4 ?? []} />
       </div>
 
       <div className="rounded-xl border bg-card px-4 mb-4">

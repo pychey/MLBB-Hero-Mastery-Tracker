@@ -21,8 +21,9 @@ import { saveHeroProgress } from "@/lib/actions/heroes"
 import { StatusSection } from "./status-section"
 import { SpellSection } from "./spell-section"
 import { SkillsSection } from "./skills-section"
-import { OtherSection } from "./other-section"
+import { PassiveSection } from "./passive-section"
 import { TipsSection } from "./tips-section"
+import { OtherSection } from "./other-section"
 
 type Props = {
   heroId: number
@@ -43,7 +44,11 @@ export function HeroEditForm({ heroId, heroName, initial }: Props) {
   const [skillCombo, setSkillCombo] = useState<string[]>(initial?.skillCombo ?? [])
   const [firstSkillUpgrade, setFirstSkillUpgrade] = useState<string[]>(initial?.firstSkillUpgrade ?? [])
   const [skillToMax, setSkillToMax] = useState<string[]>(initial?.skillToMax ?? [])
-  const [specialPassive, setSpecialPassive] = useState<string[]>(initial?.specialPassive ?? [])
+  const [passiveSkill, setPassiveSkill] = useState<string[]>(initial?.passiveSkill ?? [])
+  const [skill1, setSkill1] = useState<string[]>(initial?.skill1 ?? [])
+  const [skill2, setSkill2] = useState<string[]>(initial?.skill2 ?? [])
+  const [skill3, setSkill3] = useState<string[]>(initial?.skill3 ?? [])
+  const [skill4, setSkill4] = useState<string[]>(initial?.skill4 ?? [])
   const [heroTips, setHeroTips] = useState<string[]>(initial?.heroTips ?? [])
   const [counterWho, setCounterWho] = useState<string[]>(initial?.counterWho ?? [])
   const [whoCounter, setWhoCounter] = useState<string[]>(initial?.whoCounter ?? [])
@@ -62,7 +67,11 @@ export function HeroEditForm({ heroId, heroName, initial }: Props) {
       skillCombo,
       firstSkillUpgrade,
       skillToMax,
-      specialPassive,
+      passiveSkill,
+      skill1,
+      skill2,
+      skill3,
+      skill4,
       complexityLevel: complexity,
       strengthLevel,
       interest,
@@ -103,11 +112,21 @@ export function HeroEditForm({ heroId, heroName, initial }: Props) {
         skillCombo={skillCombo}
         firstSkillUpgrade={firstSkillUpgrade}
         skillToMax={skillToMax}
-        specialPassive={specialPassive}
         onSkillComboChange={setSkillCombo}
         onFirstSkillUpgradeChange={setFirstSkillUpgrade}
         onSkillToMaxChange={setSkillToMax}
-        onSpecialPassiveChange={setSpecialPassive}
+      />
+      <PassiveSection
+        passiveSkill={passiveSkill}
+        skill1={skill1}
+        skill2={skill2}
+        skill3={skill3}
+        skill4={skill4}
+        onPassiveSkillChange={setPassiveSkill}
+        onSkill1Change={setSkill1}
+        onSkill2Change={setSkill2}
+        onSkill3Change={setSkill3}
+        onSkill4Change={setSkill4}
       />
       <TipsSection
         heroTips={heroTips}
