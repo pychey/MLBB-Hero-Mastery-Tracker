@@ -90,7 +90,7 @@ export function HeroEditForm({ heroId, heroName, initial }: Props) {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="sticky top-0 z-10 py-2 bg-background flex justify-end">
+      <div className="sticky top-0 z-10 py-4 bg-background flex justify-end">
         <Button onClick={handleSave} disabled={saving}>
           {saving ? "Saving..." : "Save"}
         </Button>

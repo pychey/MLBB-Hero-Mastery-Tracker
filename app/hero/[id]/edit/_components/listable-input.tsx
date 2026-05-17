@@ -62,7 +62,7 @@ export function ListableInput({ label, placeholder, values, onChange }: Props) {
         className="cursor-pointer w-fit"
         onClick={handleAdd}
       >
-        <Plus className="h-4 w-4 mr-1" /> Add
+        <Plus className="h-4 w-4" />
       </Button>
     </div>
   )
