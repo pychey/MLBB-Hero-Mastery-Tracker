@@ -94,11 +94,15 @@ function ListDetailRow({ label, values }: { label: string; values: string[] }) {
     <div className="flex flex-col gap-0.5 py-3 border-b last:border-b-0">
       <span className="text-xs text-muted-foreground">{label}</span>
       {values && values.length > 0 ? (
-        <ul className="flex flex-col gap-0.5 mt-0.5">
-          {values.map((v, i) => (
-            <li key={i} className="text-sm font-medium">• {v}</li>
-          ))}
-        </ul>
+        values.length === 1 ? (
+          <span className="text-sm font-medium">{values[0]}</span>
+        ) : (
+          <ul className="flex flex-col gap-0.5 mt-0.5">
+            {values.map((v, i) => (
+              <li key={i} className="text-sm font-medium">• {v}</li>
+            ))}
+          </ul>
+        )
       ) : (
         <span className="text-sm text-muted-foreground italic">Not set</span>
       )}

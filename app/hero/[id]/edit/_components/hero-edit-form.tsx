@@ -55,6 +55,9 @@ export function HeroEditForm({ heroId, heroName, initial }: Props) {
 
   async function handleSave() {
     setSaving(true)
+
+    const clean = (arr: string[]) => arr.filter((s) => s.trim() !== "")
+
     await saveHeroProgress(heroId, {
       progress,
       roles,
@@ -64,22 +67,22 @@ export function HeroEditForm({ heroId, heroName, initial }: Props) {
       emblemTalent1: initial?.emblemTalent1 ?? null,
       emblemTalent2: initial?.emblemTalent2 ?? null,
       emblemCoreTalent: initial?.emblemCoreTalent ?? null,
-      skillCombo,
-      firstSkillUpgrade,
-      skillToMax,
-      passiveSkill,
-      skill1,
-      skill2,
-      skill3,
-      skill4,
+      skillCombo: clean(skillCombo),
+      firstSkillUpgrade: clean(firstSkillUpgrade),
+      skillToMax: clean(skillToMax),
+      passiveSkill: clean(passiveSkill),
+      skill1: clean(skill1),
+      skill2: clean(skill2),
+      skill3: clean(skill3),
+      skill4: clean(skill4),
       complexityLevel: complexity,
       strengthLevel,
       interest,
       spell,
       powerSpike: initial?.powerSpike ?? null,
-      heroTips,
-      counterWho,
-      whoCounter,
+      heroTips: clean(heroTips),
+      counterWho: clean(counterWho),
+      whoCounter: clean(whoCounter),
     })
     setSaving(false)
     router.push(`/hero/${heroId}`)
